@@ -1,0 +1,21 @@
+#!/bin/bash
+while read n 
+do 
+    if [[ `echo $n | grep '<VirtualHost'` ]] 
+    then startParse=1; 
+    echo "start parse" 
+    continue
+    fi 
+    if [[ $startParse ]] 
+    then 
+        if [[ `echo $n | grep '</VirtualHost'` ]] 
+        then startParse= 
+        fi
+        {% for param in vhostParams %} 
+        if [[ `echo $n | awk '{print $1}' | grep "^{{ param }}$"` ]] 
+        then 
+        echo "{{ param }}: "`echo $n | awk '{print $2}'` 
+        fi 
+        {% endfor %}
+    fi 
+done

@@ -1,0 +1,53 @@
+---
+# tasks file for termnews-testing
+- name: Installing python-apt for apt module
+  command: apt-get install python-apt -y -q
+  become: true
+
+- name: Updating apt cache
+  apt:
+      update_cache: yes
+
+  become: true
+
+- name: Installing default-jre
+  apt:
+     name: default-jre
+     state: present
+  become: true
+- name: Creating kafka directory
+  file:
+    path: "{{ kafkaBaseDirectory }}"
+    state: directory
+    mode: 0755
+
+- name: Extract archive
+  unarchive:
+    src: http://mirror.cc.columbia.edu/pub/software/apache/kafka/0.8.2.1/kafka_2.11-0.8.2.1.tgz
+    dest: "{{ kafkaBaseDirectory }}"
+    extra_opts: [--strip-components=1]
+    remote_src: yes
+- name: Templating out kafka configuration
+  template:
+    src: kafka.jinja2
+    dest: "{{ kafkaConfigPath }}"
+    mode: 0644
+
+- name: Templating out kafka upstart script
+  template:
+      src: kafkainit.jinja2
+      dest: /etc/init/kafka.conf
+      mode: 644
+  become: true
+- name: Reloading initctl configuration
+  shell: initctl reload-configuration
+  become: true
+
+- name: Restarting kafka service 
+  service:
+    name: kafka
+    state: restarted
+  become: true
+
+
+

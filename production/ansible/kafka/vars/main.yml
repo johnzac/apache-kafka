@@ -1,0 +1,15 @@
+---
+zooKeeperServers:
+    - 192.168.104.5
+    - 192.168.104.147
+    - 192.168.104.188
+homeDirectory: /home/ubuntu
+kafkaLogRetentionHours: 168
+kafkaPartitionCount: 3
+kafkaReplicationFactor: 3
+kafkaLogDir: /var/kafka
+kafkaBaseDirectory: "{{ homeDirectory }}/kafka"
+kafkaConfigPath: "{{ kafkaBaseDirectory }}/config/server.properties"
+kafkaServerPath: "{{ kafkaBaseDirectory }}/bin/kafka-server-start.sh"
+minHeapSize: "128M"
+maxHeapSize: "256M"

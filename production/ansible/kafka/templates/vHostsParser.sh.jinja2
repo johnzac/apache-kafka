@@ -1,0 +1,32 @@
+#!/bin/bash
+while read n 
+do 
+    if [[ `echo $n | grep '<VirtualHost'` ]] 
+    then startParse=1; 
+    paramsVar="{" 
+    continue
+    fi
+    if [[ $startParse ]] 
+    then 
+        if [[ `echo $n | grep '</VirtualHost'` ]] 
+        then 
+            startParse=
+            endParse=1 
+        fi
+        {% for param in vhostParams %}         
+        if [[ `echo $n | awk '{print $1}' | grep "^{{ param }}$"` ]] 
+        then 
+        paramsVar="$paramsVar""\"{{ param }}\": "\"`echo $n | awk '{print $2}'`\"","  
+        fi 
+        {% endfor %}
+
+         
+            fi
+           if [[ $endParse ]]
+           then
+           paramsVar=`echo $paramsVar | sed 's/,$//g'`"}"
+           echo $paramsVar
+           endParse=
+       fi
+           
+done

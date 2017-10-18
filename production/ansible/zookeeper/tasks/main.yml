@@ -1,0 +1,53 @@
+---
+# tasks file for termnews-testing
+- name: Installing python-apt for apt module
+  command: apt-get install python-apt -y -q
+  become: true
+
+- name: Updating apt cache
+  apt:
+      update_cache: yes
+
+  become: true
+
+- name: Installing default-jre
+  apt:
+     name: default-jre
+     state: present
+  become: true
+- name: Creating zookeeper directory
+  file:
+    path: "{{ zooKeeperBaseDir }}"
+    state: directory
+    mode: 0755
+
+- name: Extract archive
+  unarchive:
+    src: http://apache.claz.org/zookeeper/zookeeper-3.4.9/zookeeper-3.4.9.tar.gz
+    dest: "{{ zooKeeperBaseDir }}"
+    extra_opts: [--strip-components=1]
+    remote_src: yes
+- name: Templating out zookeeper configuration
+  template:
+    src: zookeeper.jinja2
+    dest: "{{ zooKeeperConfigFile }}"
+    mode: 0644
+
+- name: Templating out zookeeper upstart script
+  template:
+      src: zookeeperinit.jinja2
+      dest: /etc/init/zookeeper.conf
+      mode: 755
+  become: true
+- name: Reloading initctl configuration
+  shell: initctl reload-configuration
+  become: true
+
+- name: Restarting zookeeper service 
+  service:
+    name: zookeeper
+    state: restarted
+  become: true
+
+
+

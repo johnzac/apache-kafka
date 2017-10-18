@@ -1,0 +1,12 @@
+description "Starting Kafka Service"
+start on (filesystem and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+kill timeout 20
+respawn
+script
+mkdir -p {{ kafkaLogDir }}
+KAFKAEXEC={{ kafkaServerPath }}
+KAFKA_OPTS={{ kafkaConfigPath }}
+export KAFKA_HEAP_OPTS="-Xmx{{ maxHeapSize }} -Xms{{ minHeapSize}}"
+exec $KAFKAEXEC $KAFKA_OPTS
+end script

@@ -1,0 +1,11 @@
+---
+# vars file for zookeeper
+zooKeeperStorageDir: "/var/zookeeper"
+zooKeeperServerPath: "/home/ubuntu/zookeeper/bin/zkServer.sh"
+zooKeeperConfigPath: "start-foreground"
+zooKeeperBaseDir: "/home/ubuntu/zookeeper"
+zooKeeperConfigFile: "/home/ubuntu/zookeeper/conf/zoo.cfg"
+zooKeeperServers:
+    - 192.168.104.5
+    - 192.168.104.147
+    - 192.168.104.188
