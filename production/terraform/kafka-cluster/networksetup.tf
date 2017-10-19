@@ -1,5 +1,5 @@
 #creating our vpc
-resource "aws_vpc" "demoAppVpc" {
+resource "aws_vpc" "kafkaAppVpc" {
     cidr_block = "192.168.0.0/16"
    enable_dns_support = "true"
    enable_dns_hostnames = "true"
@@ -9,7 +9,7 @@ resource "aws_vpc" "demoAppVpc" {
 #creating main public subnet
 resource "aws_subnet" "public_subnet-us-west-2a"
 {
-vpc_id="${aws_vpc.demoAppVpc.id}"
+vpc_id="${aws_vpc.kafkaAppVpc.id}"
 cidr_block="192.168.101.0/24"
 map_public_ip_on_launch ="true"
 availability_zone = "us-west-2a"
@@ -21,7 +21,7 @@ name = "public-subnet"
 
 resource "aws_subnet" "public_subnet-us-west-2b"
 {
-vpc_id="${aws_vpc.demoAppVpc.id}"
+vpc_id="${aws_vpc.kafkaAppVpc.id}"
 cidr_block="192.168.104.0/24"
 map_public_ip_on_launch ="true"
 availability_zone = "us-west-2b"
@@ -35,7 +35,7 @@ name = "public-subnet"
 
 resource "aws_internet_gateway" "igw"
 {
-vpc_id="${aws_vpc.demoAppVpc.id}"
+vpc_id="${aws_vpc.kafkaAppVpc.id}"
 tags
 {
 name="igw demoApp"
@@ -43,7 +43,7 @@ name="igw demoApp"
 }
 resource "aws_route_table" "public-subnet-route-table"
 {
-vpc_id="${aws_vpc.demoAppVpc.id}"
+vpc_id="${aws_vpc.kafkaAppVpc.id}"
 route
 {
 cidr_block="0.0.0.0/0"

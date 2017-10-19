@@ -2,7 +2,7 @@ resource "aws_security_group" "public-sg"
 {
 name="public-security-group"
 description="Security group for publicly accessible instances"
-vpc_id="${aws_vpc.demoAppVpc.id}"
+vpc_id="${aws_vpc.kafkaAppVpc.id}"
 
 }
 
@@ -18,6 +18,16 @@ resource "aws_security_group_rule" "allow-access-ssh"
   security_group_id = "${aws_security_group.public-sg.id}"
 }
 
+resource "aws_security_group_rule" "allow-all-http"
+{
+  type            = "ingress"
+  from_port       = 80
+  to_port         = 80
+  protocol        = "tcp"
+  cidr_blocks     = ["0.0.0.0/0"]
+
+  security_group_id = "${aws_security_group.public-sg.id}"
+}
 resource "aws_security_group_rule" "allow-all-zookeeper"
 {
   type            = "ingress"
@@ -36,6 +46,17 @@ resource "aws_security_group_rule" "allow-all-zookeeper-leader"
   protocol        = "tcp"
   cidr_blocks     = ["0.0.0.0/0"]
   
+  security_group_id = "${aws_security_group.public-sg.id}"
+}
+
+resource "aws_security_group_rule" "allow-all-zookeeper-service-discovery"
+{
+  type            = "ingress"
+  from_port       = 2181
+  to_port         = 2181
+  protocol        = "tcp"
+  cidr_blocks     = ["0.0.0.0/0"]
+
   security_group_id = "${aws_security_group.public-sg.id}"
 }
 

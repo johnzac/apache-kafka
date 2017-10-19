@@ -1,13 +1,15 @@
-resource "aws_instance" "buildServers"
+resource "aws_instance" "zookeeperServers"
 {
-ami = "ami-9fa761e7"
-instance_type = "t2.micro"
-count = "3"
+ami = "${var.amiServer}"
+instance_type = "${var.serversType}"
+count = "${var.zookeeperServersCount}"
 vpc_security_group_ids = ["${aws_security_group.public-sg.id}"]
-key_name = "kafka-key"
+key_name = "${var.serversKeyName}"
 subnet_id="${aws_subnet.public_subnet-us-west-2b.id}"
-user_data = "${file("userDataKafka")}"
+user_data = "${file(var.serversUserDataFile)}"
 tags {
-    Name = "kafka-prod"
+    kafka-prod-server = "true"
+
+    zookeeper-prod-server = "true"
   }
 }

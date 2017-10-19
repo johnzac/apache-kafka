@@ -1,0 +1,11 @@
+aws-configuration:
+    region: us-west-2
+    tags:
+        - zookeeper-prod-server: "true"
+    ansible_ssh_user: ubuntu
+    ansible_ssh_private_key_file: /home/owl/.ssh/id_rsa
+
+ansible-host: zookeeper
+ansible-inventory-filename: /etc/ansible/kafkaPlay/zookeeper
+ansible-zookeeper-var-filename: /etc/ansible/kafkaPlay/zookeeper.yml
+
