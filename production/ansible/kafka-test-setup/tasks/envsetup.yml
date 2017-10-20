@@ -1,0 +1,83 @@
+---
+- name: Installing python-apt for apt module
+  command: apt-get install python-apt -y -q
+  become: true
+
+- name: Add  apt key
+  shell: curl -s https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+  become: true
+- name: get distro release
+  command: lsb_release -cs
+  register: releaseCode
+
+- name: Adding docker repository
+  apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ releaseCode.stdout_lines[0] }} stable
+      state: present
+      update_cache: yes
+  become: true
+
+- name: Install curl binary
+  apt:
+      name: curl
+      state: present
+      update_cache: yes
+
+  become: true
+
+- name: Adding CA certificates
+  apt:
+     name: ca-certificates
+     state: present
+  become: true
+
+
+- name: get kernel version
+  command: uname -r 
+  register: kernelVersion
+
+- debug:
+        msg: "{{ kernelVersion.stdout_lines[0] }}"
+
+- name: Installing kernel specific extra packages
+  apt:
+     name: linux-image-extra-{{ kernelVersion.stdout_lines[0] }}
+     state: present
+  ignore_errors: yes
+  become: true
+
+- name: Installing extra packages for docker
+  apt:
+     name: "{{ item }}"
+     state: present
+     allow_unauthenticated: true
+  become: true
+  with_items:  
+       - linux-image-extra-virtual
+       - software-properties-common
+       - apt-transport-https
+       - ca-certificates
+
+- name: Installing python pip
+  apt:
+     name: python-pip
+     state: present
+  become: true
+
+- name: Installing docker command line tools
+  apt:
+     name: "{{ item }}"
+     state: present
+     
+  become: true
+  with_items:
+       - docker-ce
+
+- name: Installing docker compose tool
+  pip:
+     name: docker-compose
+  become: true
+
+
+
+

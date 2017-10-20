@@ -1,11 +1,7 @@
 ---
-zooKeeperServers:
-    - 192.168.104.5
-    - 192.168.104.147
-    - 192.168.104.188
 homeDirectory: /home/ubuntu
 kafkaLogRetentionHours: 168
-kafkaPartitionCount: 3
+kafkaPartitionCount: 4
 kafkaReplicationFactor: 3
 kafkaLogDir: /var/kafka
 kafkaBaseDirectory: "{{ homeDirectory }}/kafka"

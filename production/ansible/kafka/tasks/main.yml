@@ -1,5 +1,5 @@
 ---
-# tasks file for termnews-testing
+# tasks file for kafka-setup
 - name: Installing python-apt for apt module
   command: apt-get install python-apt -y -q
   become: true

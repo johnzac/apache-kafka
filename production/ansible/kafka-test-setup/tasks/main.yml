@@ -1,0 +1,60 @@
+---
+- include: envsetup.yml
+- block:    
+    - name: Producer Container
+      shell: docker run  --dns=172.17.0.1 -d --name producertest johnzac92/kafka-producer:test
+      become: True
+    
+    - name: Consumer Container
+      shell: docker run  -p 5000:5000 --dns=172.17.0.1 -e "FLASK_APP=consumer.py" -d --name consumertest johnzac92/kafka-consumer:test
+      become: True
+    
+    - name: Templating out tests shell script
+      template:
+          src: tests.jinja2
+          dest: "{{ homeDir }}/tests.sh"
+          mode: 0544
+    
+    - name: Running tests
+      shell: /bin/bash "{{ homeDir }}/tests.sh"
+      ignore_errors: yes
+      register: testresults
+
+    - name: logging test results
+      debug:
+        var: testresults.stdout_lines
+
+    
+    - name: stopping producer container
+      shell: docker stop producertest
+      become: True
+    
+    - name: Removing producer container
+      shell: docker rm producertest
+      become: True
+    
+    - name: stopping consumer container
+      shell: docker stop consumertest
+      become: True
+    
+    - name: Removing consumer container
+      shell: docker rm consumertest
+      become: True
+
+  rescue:
+   - name: "Cleaning up containers..."
+     debug:
+        msg: "Cleaning up"
+     changed_when: 1
+     notify: cleanup containers
+
+   - name: Flushing handlers
+     meta: flush_handlers
+
+
+
+    
+    
+    
+    
+    

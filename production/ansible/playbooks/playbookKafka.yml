@@ -1,0 +1,6 @@
+- hosts: kafka
+  roles:
+      - kafka
+  vars_files:
+      - zookeeper.yml
+

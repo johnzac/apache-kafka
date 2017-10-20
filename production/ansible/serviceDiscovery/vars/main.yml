@@ -1,0 +1,11 @@
+---
+homeDirectory: /home/ubuntu
+exposePortHAProxy: 9093
+kafkaPort: 9092
+haProxyMaxConnection: 2048
+healthCheckFallParam: 2
+healthCheckRiseParam: 3
+dnsMasqHostsFile: "{{ homeDirectory }}/hosts.conf"
+haproxyConfigPath: "/etc/haproxy/haproxy.cfg"
+kafkaDnsName: "kafka"   
+haproxyPidFile: "/tmp/haproxy"

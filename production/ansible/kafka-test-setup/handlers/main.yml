@@ -1,0 +1,26 @@
+---
+# handlers file for kafka-test-setup
+- name: stopping producer container
+  shell: docker stop producertest
+  become: True
+  listen: "cleanup containers"
+  notify: cleanup consumer
+  ignore_errors: True
+
+- name: Removing producer container
+  shell: docker rm producertest
+  become: True
+  listen: "remove producer"
+  notify: remove consumer
+
+- name: stopping consumer container
+  shell: docker stop consumertest
+  become: True
+  listen: "cleanup consumer"
+  notify: remove producer
+
+- name: Removing consumer container
+  shell: docker rm consumertest
+  become: True
+  listen: "remove consumer"
+

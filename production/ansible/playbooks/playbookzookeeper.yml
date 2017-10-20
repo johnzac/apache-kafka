@@ -1,0 +1,6 @@
+- hosts: zookeeper
+  roles:
+      - zookeeper
+  vars_files:
+      - zookeeper.yml
+

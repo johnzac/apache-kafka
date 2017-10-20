@@ -1,0 +1,59 @@
+---
+- name: Installing python-apt for apt module
+  command: apt-get install python-apt -y -q
+  become: true
+
+- name: Updating apt cache
+  apt:
+      update_cache: yes
+
+  become: true
+- name: Install the package dnsmasq
+  apt:
+    name: dnsmasq
+    state: present
+  become: yes
+
+
+- name: adding additional hosts file to dnsmasq configuration
+  lineinfile:
+     path: /etc/dnsmasq.conf
+     line: "addn-hosts={{ dnsMasqHostsFile }}"
+  become: yes
+
+- name: Install the package haproxy
+  apt:
+    name: haproxy
+    state: present
+  become: yes
+
+- name: Templating out haproxy configuration
+  template:
+    src: haproxy.jinja2
+    dest: "{{ haproxyConfigPath }}"
+    mode: 0644
+  become: true
+
+- name: Templating out DnsMasq hosts file
+  template:
+      src: hosts.jinja2
+      dest: "{{ dnsMasqHostsFile }}"
+      mode: 0644
+
+- name: stopping any existing haproxy instances
+  shell: killall haproxy
+  become: true
+  ignore_errors: True
+
+- name: Restarting haproxy service 
+  shell: "haproxy -f {{ haproxyConfigPath }} -p {{ haproxyPidFile }}"
+  become: true
+
+- name: Restarting Dnsmasq service
+  service:
+      name: dnsmasq
+      state: restarted
+  become: true
+
+
+

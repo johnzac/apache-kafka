@@ -1,0 +1,5 @@
+---
+# vars file for kafka-test-setup
+testPort: 5000
+testTimeout: 4
+homeDir: /home/ubuntu

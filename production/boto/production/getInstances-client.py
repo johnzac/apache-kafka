@@ -12,10 +12,12 @@ fil['instance-state-name'] = 'running'
 reservations = awsConn.get_all_reservations(filters=fil)
 instancesArray = [i for r in reservations for i in r.instances ]
 ansiblefile = open(cfg['ansible-inventory-filename'], 'w')
+clientIp = open(cfg['ansible-clientIp-var-filename'],'w')
 ansiblefile.write("[" + cfg["ansible-host"] + "]\n")
+clientIp.write("clientServers:\n")
 for instance in instancesArray:
     print(instance.ip_address)
     print(instance.private_ip_address)
     ansiblefile.write(instance.ip_address + " ansible_user=" + ansible_user + " ansible_ssh_private_key_file=" + ansible_user_ssh_key_file + " privateIp=" + instance.private_ip_address + "\n")
-    
+    clientIp.write("    - " + instance.private_ip_address + "\n")
 ansiblefile.close
