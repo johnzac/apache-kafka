@@ -34,8 +34,7 @@ resource "aws_security_group_rule" "allow-all-zookeeper"
   from_port       = 2888
   to_port         = 2888
   protocol        = "tcp"
-  cidr_blocks     = ["0.0.0.0/0"]
-
+  source_security_group_id = "${aws_security_group.public-sg.id}"
   security_group_id = "${aws_security_group.public-sg.id}"
 }
 resource "aws_security_group_rule" "allow-all-zookeeper-leader"
@@ -44,8 +43,7 @@ resource "aws_security_group_rule" "allow-all-zookeeper-leader"
   from_port       = 3888
   to_port         = 3888
   protocol        = "tcp"
-  cidr_blocks     = ["0.0.0.0/0"]
-  
+  source_security_group_id = "${aws_security_group.public-sg.id}" 
   security_group_id = "${aws_security_group.public-sg.id}"
 }
 
@@ -55,7 +53,7 @@ resource "aws_security_group_rule" "allow-all-zookeeper-service-discovery"
   from_port       = 2181
   to_port         = 2181
   protocol        = "tcp"
-  cidr_blocks     = ["0.0.0.0/0"]
+  source_security_group_id = "${aws_security_group.public-sg.id}"
 
   security_group_id = "${aws_security_group.public-sg.id}"
 }
@@ -66,10 +64,20 @@ resource "aws_security_group_rule" "allow-all-kafka-node"
   from_port       = 9092
   to_port         = 9092
   protocol        = "tcp"
-  cidr_blocks     = ["0.0.0.0/0"]
-
+  source_security_group_id = "${aws_security_group.public-sg.id}"
   security_group_id = "${aws_security_group.public-sg.id}"
 }
+
+resource "aws_security_group_rule" "allow-all-flask-dev"
+{
+  type            = "ingress"
+  from_port       = 5000
+  to_port         = 5000
+  protocol        = "tcp"
+  source_security_group_id = "${aws_security_group.public-sg.id}"
+  security_group_id = "${aws_security_group.public-sg.id}"
+}
+
 
 resource "aws_security_group_rule" "allow-all-outbound"
 {
