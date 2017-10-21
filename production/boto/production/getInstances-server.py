@@ -1,19 +1,19 @@
 import boto.ec2,yaml,sys
-with open("config-server.yml","r") as ymlfile:
+with open("config-common.yml","r") as ymlfile:
     cfg= yaml.load(ymlfile)
 ansible_user = cfg['aws-configuration']['ansible_ssh_user']
 ansible_user_ssh_key_file = cfg['aws-configuration']['ansible_ssh_private_key_file']
 fil = {}
 awsConn = boto.ec2.connect_to_region(cfg['aws-configuration']['region'])
-for tags in cfg['aws-configuration']['tags']:
+for tags in cfg['aws-configuration']['tags']['tags-zookeeper']:
     tagName,tagValue=tags.items()[0]
     fil['tag:'+tagName] = tagValue
 fil['instance-state-name'] = 'running'
 reservations = awsConn.get_all_reservations(filters=fil)
 instancesArray = [i for r in reservations for i in r.instances ]
-ansible = open(cfg['ansible-inventory-filename'], 'w')
+ansible = open(cfg['ansible-inventory-filename-zookeeper'], 'w')
 zookeeper = open(cfg['ansible-zookeeper-var-filename'],'w')
-ansible.write("[" + cfg["ansible-host"] + "]\n")
+ansible.write("[" + cfg["ansible-host-zookeeper"] + "]\n")
 zookeeper.write("zooKeeperServers:\n")
 instanceVar = str(1)
 for instance in instancesArray:

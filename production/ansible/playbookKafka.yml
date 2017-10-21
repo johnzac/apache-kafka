@@ -1,5 +1,0 @@
-- hosts: awsServers
-  roles:
-      - zookeeper
-      - kafka
-

@@ -1,0 +1,28 @@
+aws-configuration:
+    region: us-west-2
+    tags:
+         tags-client:
+               - client-node: "true"
+         tags-zookeeper:
+               - zookeeper-prod-server: "true"
+         tags-kafka:
+               - kafka-prod-server: "true" 
+    ansible_ssh_user: ubuntu
+    ansible_ssh_private_key_file: /home/owl/.ssh/id_rsa
+#host name for client nodes in ansible inventory
+ansible-host-client: client
+#host name for kafka nodes in ansible inventory
+ansible-host-kafka: kafka
+#host name for zookeeper nodes in ansible inventory
+ansible-host-zookeeper: zookeeper
+# file name to write client inventory file
+ansible-inventory-filename-client: /home/owl/git-kafka/production/ansible/playbooks/client
+# file name to save client ip
+ansible-clientIp-var-filename: /home/owl/git-kafka/production/ansible/playbooks/clientip.yml
+ansible-inventory-filename-kafka: /home/owl/git-kafka/production/ansible/playbooks/kafka
+# file name for broker ip
+ansible-kafka-var-filename: /home/owl/git-kafka/production/ansible/playbooks/brokers.yml
+ansible-inventory-filename-zookeeper: /home/owl/git-kafka/production/ansible/playbooks/zookeeper
+# file name for zookeeper ip
+ansible-zookeeper-var-filename: /home/owl/git-kafka/production/ansible/playbooks/zookeeper.yml
+
