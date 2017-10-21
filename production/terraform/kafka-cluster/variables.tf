@@ -32,5 +32,11 @@ default="mysql-key"
 variable "clientsUserDataFile"{
 default="userDataKafka"
 }
+variable "public_subnet_availabilityzone_a"{
+default="us-west-2a"
+}
+variable "public_subnet_availabilityzone_b"{
+default="us-west-2b"
+}
 
 

@@ -12,7 +12,7 @@ resource "aws_subnet" "public_subnet-us-west-2a"
 vpc_id="${aws_vpc.kafkaAppVpc.id}"
 cidr_block="192.168.101.0/24"
 map_public_ip_on_launch ="true"
-availability_zone = "us-west-2a"
+availability_zone = "${var.public_subnet_availabilityzone_a}"
 tags
 {
 name = "public-subnet"
@@ -24,7 +24,7 @@ resource "aws_subnet" "public_subnet-us-west-2b"
 vpc_id="${aws_vpc.kafkaAppVpc.id}"
 cidr_block="192.168.104.0/24"
 map_public_ip_on_launch ="true"
-availability_zone = "us-west-2b"
+availability_zone = "${var.public_subnet_availabilityzone_b}"
 tags
 {
 name = "public-subnet"
