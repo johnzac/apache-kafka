@@ -7,17 +7,25 @@ The script uses upstart scripts to respawn kafka and zookeeper on failure and br
 Script tested on ubuntu 14.04 host system with terraform 0.9.11, Python 2.7.6 and ansible 2.3.2.
 To run the script , you will need terraform, python and ansible installed on the system. Boto python library will also need to be installed. Any version of ansible and terraform should work fine. Boto is known not to play very well with python3, so, I'd recommend trying it out on python2.
 
+Ansible roles:
+1. zookeeper: Sets up the zookeeper service in HA mode on all zookeeper server nodes. Zookeeper service is ensured to be always running with an upstart script.
+2. kafka: Sets up the number of kafka brokers specified according to the configuration in kafka ansible role. Kafka is ensured to be always running with an upstart script. 
+3. serviceDiscovery: Sets up client nodes for service discovery by setting up haproxy and dnsmasq combination and configuring haproxy to proxy to the kafka brokers.
+4.kafka-test-setup: Runs a simple message passing test on the above configured servers by deploying two docker images.
+
+Copy playbooks folder to the location where you intent to run playbook from and change configuration in deploy script and boto config to the new directory.
+
 Configuration files:
 You'll have to edit the following config files:
 edit terraformDirectroy,botoDirectory and ansibleDirectory in deploy-kafka.sh to the corresponding ones on your local system.
-For boto, you will have to edit ansibleDirectory, aws region, aws user( ansible_ssh_user), private key and inventory filenames in config-client,config-kafka and config-server yml files ( Each service is handled independently).
+For boto, you will have to edit ansibleDirectory, aws region, aws user( ansible_ssh_user), private key and inventory filenames in config-common yml files .
 Edit terrafrom configuration.tf with your aws access and secret keys.
 The rest should work with the defaults.
 The tweakable configuration parameters for each service is in it's corresponding ansible role vars file.
-
+To tweak number of client, kafka or zookeeper servers, modify terraform config file.( See Known bugs)
 To run the script, modify the config files and run the deploy-kafka.sh shell script.
 
 Known Bugs:
-Needs to be configured with a minimum of 3 kafka brokers and 3 zookeeper servers. While the latter is essential for proper functioning of zookeeper, the former is a bug. 
+Needs to be configured with at least as many kafka brokers as there are zookeeper nodes. This bug affects the infrastructure provisioning step.  
 
 
