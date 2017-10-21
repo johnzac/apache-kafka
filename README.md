@@ -14,19 +14,18 @@ Ansible roles:
 
 4.kafka-test-setup: Runs a simple message passing test on the above configured servers by deploying two docker images.
 
-Copy playbooks folder to the location where you intent to run playbook from and change configuration in deploy script and boto config to the new directory.
+Copy playbooks folder to the location where you intent to run playbook from and change configuration in deploy script and boto config to the new directory. Also copy ansible roles to your local ansible roles directory.
 
 Configuration files:
 You'll have to edit the following config files:
 edit terraformDirectroy,botoDirectory and ansibleDirectory in deploy-kafka.sh to the corresponding ones on your local system.
-For boto, you will have to edit ansibleDirectory, aws region, aws user( ansible_ssh_user), private key and inventory filenames in config-common yml files .
-Edit terrafrom configuration.tf with your aws access and secret keys. ALso edit boto common config with aws region.
+For boto, you will have to edit ansibleDirectory, aws region, aws user( ansible_ssh_user), private key and inventory filenames,aws region in config-common yml files .
+Edit terrafrom configuration.tf with your aws access and secret keys. Change the ami in variables.tf file to the ami in your aws region.
+Note: Kafka brokers are configured from the deploy-servers.sh script.
 The rest should work with the defaults.
 The tweakable configuration parameters for each service is in it's corresponding ansible role vars file.
-To tweak number of client, kafka or zookeeper servers, modify terraform config file.( See Known bugs)
+To tweak number of client, kafka or zookeeper servers, modify terraform config file.
 To run the script, modify the config files and run the deploy-kafka.sh shell script.
-
-Known Bugs:
-Needs to be configured with at least as many kafka brokers as there are zookeeper nodes. This bug affects the infrastructure provisioning step.  
+ 
 
 
