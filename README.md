@@ -19,7 +19,7 @@ Configuration files:
 You'll have to edit the following config files:
 edit terraformDirectroy,botoDirectory and ansibleDirectory in deploy-kafka.sh to the corresponding ones on your local system.
 For boto, you will have to edit ansibleDirectory, aws region, aws user( ansible_ssh_user), private key and inventory filenames in config-common yml files .
-Edit terrafrom configuration.tf with your aws access and secret keys.
+Edit terrafrom configuration.tf with your aws access and secret keys. ALso edit boto common config with aws region.
 The rest should work with the defaults.
 The tweakable configuration parameters for each service is in it's corresponding ansible role vars file.
 To tweak number of client, kafka or zookeeper servers, modify terraform config file.( See Known bugs)
