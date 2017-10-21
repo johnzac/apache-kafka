@@ -11,6 +11,7 @@ Ansible roles:
 1. zookeeper: Sets up the zookeeper service in HA mode on all zookeeper server nodes. Zookeeper service is ensured to be always running with an upstart script.
 2. kafka: Sets up the number of kafka brokers specified according to the configuration in kafka ansible role. Kafka is ensured to be always running with an upstart script. 
 3. serviceDiscovery: Sets up client nodes for service discovery by setting up haproxy and dnsmasq combination and configuring haproxy to proxy to the kafka brokers.
+
 4.kafka-test-setup: Runs a simple message passing test on the above configured servers by deploying two docker images.
 
 Copy playbooks folder to the location where you intent to run playbook from and change configuration in deploy script and boto config to the new directory.
