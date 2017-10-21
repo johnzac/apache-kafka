@@ -26,6 +26,8 @@ The rest should work with the defaults.
 The tweakable configuration parameters for each service is in it's corresponding ansible role vars file.
 To tweak number of client, kafka or zookeeper servers, modify terraform config file.
 To run the script, modify the config files and run the deploy-kafka.sh shell script.
+
+Note: This configuration allows public access to ports 80 and 22 on the servers spun up. The rest of the ports required for functioning of the tests are only accessible from the same aws security group.
  
 
 
