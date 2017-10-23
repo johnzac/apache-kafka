@@ -1,12 +1,17 @@
 #!/bin/bash
-terraformDirectroy="/home/owl/instance-terraform"
-botoDirectory="/home/owl/boto/testing"
-ansibleDirectory="/home/owl/Desktop/playbooks"
+kafkaBrokerCount="3"
+terraformDirectroy="/home/owl/git-kafka/production/terraform/kafka-cluster"
+botoDirectory="/home/owl/git-kafka/production/boto/production"
+ansibleDirectory="/home/owl/git-kafka/production/ansible/playbooks"
+sed -i "s/kafkaBrokerCount:.*/kafkaBrokerCount: $kafkaBrokerCount/g" ${botoDirectory}/config-common.yml
 echo "Bringing up infrastructure..."
 cd $terraformDirectroy
 terraform apply
-echo "Creating ansible inventories and variables"
+sleep 5
 cd $botoDirectory
+echo "Adding tags to kafka instances"
+python tagKafkaInstances.py
+echo "Creating ansible inventories and variables"
 python getInstances-server.py
 python getInstances-kafka.py
 python getInstances-client.py

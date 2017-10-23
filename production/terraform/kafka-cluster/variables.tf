@@ -1,4 +1,5 @@
 
+
 variable "amiServer"{
 default="ami-9fa761e7"
 }
@@ -6,7 +7,7 @@ variable "serversType"{
 default="t2.micro"
 }
 variable "serversKeyName"{
-default="mysql-key"
+default="keypair-kafka"
 }
 variable "serversUserDataFile"{
 default="userDataKafka"
@@ -14,23 +15,20 @@ default="userDataKafka"
 variable "zookeeperServersCount"{
 default= 3
 }
-variable "kafkaBrokersCount"{
-default= 3
-}
 variable "amiClient"{
 default="ami-9fa761e7"
 }
 variable "clientNodeCount"{
-default = 5
+default = 2
 }
 variable "clientsType"{
 default="t2.micro"
 }
 variable "clientKeyName"{
-default="mysql-key"
+default="keypair-kafka"
 }
 variable "clientsUserDataFile"{
-default="userDataKafka"
+default="userDataProxy"
 }
 variable "public_subnet_availabilityzone_a"{
 default="us-west-2a"

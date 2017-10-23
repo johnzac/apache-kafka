@@ -8,8 +8,7 @@ key_name = "${var.serversKeyName}"
 subnet_id="${aws_subnet.public_subnet-us-west-2b.id}"
 user_data = "${file(var.serversUserDataFile)}"
 tags {
-    kafka-prod-server = "true"
-
     zookeeper-prod-server = "true"
+    kafka-candidate = "true"
   }
 }
