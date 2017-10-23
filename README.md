@@ -30,6 +30,10 @@ To run the script, modify the config files and run the deploy-kafka.sh shell scr
 Note: This configuration allows public access to ports 80 and 22 on the servers spun up. The rest of the ports required for functioning of the tests are only accessible from the same aws security group.
 
 Note: Terraform is by nature declarative; so, if you already have an infrastructure running in the same VPC and account, it WILL take down your entire infrastructre. Please run 'terraform plan' before trying it out.
+
+If you'd like to try out the deployment on a test ebvironment, just pull out johnzac92/kafkaenv:test from the docker hub i.e. sudo docker run -it johnzac92/kafkaenv:test , cd into /home/apache-kafka/production , change the 2 config files given in README i.e. /root/.aws/creds , terraform configuration.tf, copy out your pem key to a file on the container and change the path of ansible_ssh_private_key_file in config-common.yml in boto/production to the new path. Then just run ./deploy-kafka.sh.
+
+
  
 
 
