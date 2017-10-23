@@ -28,6 +28,8 @@ To tweak number of client, kafka or zookeeper servers, modify terraform config f
 To run the script, modify the config files and run the deploy-kafka.sh shell script.
 
 Note: This configuration allows public access to ports 80 and 22 on the servers spun up. The rest of the ports required for functioning of the tests are only accessible from the same aws security group.
+
+Note: Terraform is by nature declarative; so, if you already have an infrastructure running in the same VPC and account, it WILL take down your entire infrastructre. Please run 'terraform plan' before trying it out.
  
 
 
